@@ -381,9 +381,9 @@ function App() {
                         <div className="grid grid-cols-2 gap-x-8 gap-y-1">
                             <SummaryRow label="Inversión total" value={formatCurrency(results.totalCompra)} />
                             <SummaryRow label="Capital propio" value={formatCurrency(results.capitalAportar)} />
-                            <SummaryRow label="Ingreso anual" value={formatCurrency(results.ingresoAnual)} color="orange" />
+                            <SummaryRow label="Ingreso anual" value={formatCurrency(results.ingresoAnual)} color="green" />
                             <SummaryRow label="Gastos anuales" value={formatCurrency(results.totalGastosAnual)} color="red" />
-                            <SummaryRow label="Cash-Flow anual" value={formatCurrency(results.cashFlowAnual)} color={results.cashFlowAnual >= 0 ? 'orange' : 'red'} />
+                            <SummaryRow label="Cash-Flow anual" value={formatCurrency(results.cashFlowAnual)} color={results.cashFlowAnual >= 0 ? 'green' : 'red'} />
                             <SummaryRow label="Recuperación (años)" value={formatNumber(results.per, 1)} />
                         </div>
                     </div>
@@ -425,12 +425,12 @@ function InputField({ label, value, onChange, step = "1", max, min = 0 }) {
     );
 }
 
-// KPI Card Component - Zona3 Light Style with orange border
+// KPI Card Component - Muted green for good, Red for bad
 function KPICard({ title, value, isPositive, highlight }) {
     return (
         <div className={`glass-card kpi-card p-5 ${highlight ? 'kpi-highlight' : ''}`}>
             <p className="text-[#666] text-xs mb-2 uppercase tracking-wide">{title}</p>
-            <p className={`text-2xl font-bold ${isPositive ? 'text-[#c4513d]' : 'text-[#dc2626]'}`}>
+            <p className={`text-2xl font-bold ${isPositive ? 'text-[#5a7d5a]' : 'text-[#dc2626]'}`}>
                 {value}
             </p>
         </div>
@@ -450,7 +450,7 @@ function DetailItem({ label, monthly, annual }) {
 
 // Summary Row Component
 function SummaryRow({ label, value, color }) {
-    const colorClass = color === 'orange' ? 'text-[#c4513d]' : color === 'red' ? 'text-[#dc2626]' : 'text-[#2d2d2d]';
+    const colorClass = color === 'green' ? 'text-[#5a7d5a]' : color === 'red' ? 'text-[#dc2626]' : 'text-[#2d2d2d]';
     return (
         <div className="flex justify-between items-center py-3 border-b border-[#e0d8d0]">
             <span className="text-[#666]">{label}</span>
