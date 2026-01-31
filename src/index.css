@@ -1,60 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --color-positive: #10b981;
-  --color-negative: #ef4444;
-  --color-primary: #6366f1;
-  --color-primary-dark: #4f46e5;
+  --color-bg: #f5f0eb;
+  --color-card: #ffffff;
+  --color-card-border: #e8e0d8;
+  --color-accent: #c4513d;
+  --color-accent-light: rgba(196, 81, 61, 0.1);
+  --color-positive: #c4513d;
+  --color-negative: #dc2626;
+  --color-text: #2d2d2d;
+  --color-text-secondary: #666666;
 }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  background-color: var(--color-bg);
   min-height: 100vh;
+  color: var(--color-text);
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.5);
-  border-radius: 4px;
+  background: #ccc;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.7);
+  background: var(--color-accent);
 }
 
-/* Glassmorphism card */
+/* Cards - Zona3 light style */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .glass-card-dark {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
+  background: #faf8f5;
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
 }
 
-/* Input styling */
+/* Input styling - Light theme */
 input[type="number"],
 input[type="text"],
 select {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 10px 14px;
-  color: white;
+  background: #faf8f5;
+  border: 1px solid #e0d8d0;
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: var(--color-text);
   font-size: 14px;
   transition: all 0.2s ease;
   width: 100%;
@@ -64,73 +69,89 @@ input[type="number"]:focus,
 input[type="text"]:focus,
 select:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(196, 81, 61, 0.1);
 }
 
 input[type="number"]::placeholder,
 input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: #999;
 }
 
 select option {
-  background: #1e1b4b;
-  color: white;
+  background: white;
+  color: var(--color-text);
 }
 
 /* Hide number input arrows */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
-/* KPI Card animations */
+/* KPI Card - Light with orange accent */
 .kpi-card {
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .kpi-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 12px rgba(196, 81, 61, 0.1);
+}
+
+/* Highlight for main KPIs - orange border */
+.kpi-highlight {
+  border: 2px solid var(--color-accent);
 }
 
 /* Value colors */
 .value-positive {
-  color: var(--color-positive);
+  color: var(--color-accent);
 }
 
 .value-negative {
   color: var(--color-negative);
 }
 
-/* Recharts custom styling */
-.recharts-cartesian-grid-horizontal line,
-.recharts-cartesian-grid-vertical line {
-  stroke: rgba(255, 255, 255, 0.1);
+/* Section title styling */
+.section-title {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
 }
 
-.recharts-text {
-  fill: rgba(255, 255, 255, 0.6);
+/* Number circles like zona3 */
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-/* Pulse animation for KPI */
-@keyframes pulse-glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
-  }
-
-  50% {
-    box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
-  }
+/* Check icon style */
+.check-icon {
+  color: var(--color-accent);
 }
 
-.kpi-highlight {
-  animation: pulse-glow 2s ease-in-out infinite;
+/* Feature card like zona3 */
+.feature-card {
+  background: white;
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  padding: 16px 24px;
+  text-align: center;
 }
