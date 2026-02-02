@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { communities, getItpRate } from './data/itpTable';
 import { calculateInvestment, generateCashFlowProjection, formatCurrency, formatPercentage, formatNumber } from './utils/calculations';
+import { generateInvestmentPDF } from './utils/exportPdf';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ComposedChart, Area } from 'recharts';
 
 // Default values from Excel
@@ -26,6 +27,8 @@ const defaultInputs = {
 };
 
 function App() {
+    const chartRef = useRef(null);
+    const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
     const [inputs, setInputs] = useState(defaultInputs);
 
     const itpRate = getItpRate(inputs.comunidad);
@@ -66,6 +69,23 @@ function App() {
         { name: 'Comunidad', value: Math.round(inputs.comunidadAnual / 12), fill: '#b8442f' },
         { name: 'Mantenimiento', value: Math.round(inputs.mantenimientoAnual / 12), fill: '#9c3928' },
     ].filter(item => item.value > 0);
+
+    const handleExportPDF = async () => {
+        setIsGeneratingPDF(true);
+        try {
+            await generateInvestmentPDF({
+                inputs,
+                results,
+                itpRate,
+                chartElement: chartRef.current,
+            });
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Error al generar el PDF. Por favor, inténtalo de nuevo.');
+        } finally {
+            setIsGeneratingPDF(false);
+        }
+    };
 
     return (
         <div className="min-h-screen p-6 md:p-10 lg:p-12">
@@ -222,6 +242,32 @@ function App() {
                 {/* RIGHT COLUMN - RESULTS */}
                 <div className="lg:col-span-7 space-y-8">
 
+                    {/* PDF Export Button */}
+                    <div className="flex justify-end">
+                        <button
+                            onClick={handleExportPDF}
+                            disabled={isGeneratingPDF}
+                            className="pdf-export-btn"
+                        >
+                            {isGeneratingPDF ? (
+                                <>
+                                    <svg className="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Generando...
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Descargar Informe PDF
+                                </>
+                            )}
+                        </button>
+                    </div>
+
                     {/* Main KPIs Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                         <KPICard
@@ -327,7 +373,7 @@ function App() {
                     </div>
 
                     {/* Cash Flow Projection Chart */}
-                    <div className="glass-card p-8">
+                    <div className="glass-card p-8" ref={chartRef}>
                         <h2 className="section-title mb-6 flex items-center gap-3">
                             <CheckIcon /> Proyección Cash-Flow (10 años)
                         </h2>

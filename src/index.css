@@ -155,3 +155,53 @@ input[type="number"] {
   padding: 16px 24px;
   text-align: center;
 }
+
+/* PDF Export Button - Zona3 Brand Style */
+.pdf-export-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(196, 81, 61, 0.25);
+}
+
+.pdf-export-btn:hover:not(:disabled) {
+  background: #b8442f;
+  box-shadow: 0 4px 16px rgba(196, 81, 61, 0.35);
+  transform: translateY(-1px);
+}
+
+.pdf-export-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(196, 81, 61, 0.25);
+}
+
+.pdf-export-btn:disabled {
+  background: #e0d8d0;
+  color: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Spin animation for loading state */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
